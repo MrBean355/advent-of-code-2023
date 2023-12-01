@@ -5,11 +5,13 @@ import com.github.mrbean355.aoc.base.PuzzleTest
 class Day1Test : PuzzleTest(Day1::class) {
 
     override val part1TestCases = mapOf(
-        "day1/example.txt" to 142,
+        "day1/example_part1.txt" to 142,
         "day1/puzzle.txt" to 54601,
     )
 
-    override val part2TestCases: Map<String, Any>
-        get() = emptyMap()
+    override val part2TestCases = mapOf(
+        "day1/example_part2.txt" to 281,
+        "day1/puzzle.txt" to 54078,
+    )
 
 }
