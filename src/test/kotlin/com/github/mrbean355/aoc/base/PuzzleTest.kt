@@ -2,16 +2,13 @@ package com.github.mrbean355.aoc.base
 
 import org.junit.jupiter.api.Test
 import java.io.File
-import kotlin.reflect.KClass
-import kotlin.reflect.full.primaryConstructor
 import kotlin.test.assertEquals
 
 /**
  * Base test class to make unit testing puzzles easier.
  */
-abstract class PuzzleTest(
-    /** Type of the [Puzzle] implementation. */
-    private val clazz: KClass<out Puzzle>,
+abstract class PuzzleTest<Input>(
+    private val implementation: Puzzle<Input>,
 ) {
 
     /** Map of input files to expected outputs. */
@@ -22,31 +19,24 @@ abstract class PuzzleTest(
 
     @Test
     fun runPart1TestCases() {
-        part1TestCases.forEach { (input, expected) ->
-            val solution = instantiate(input)
+        part1TestCases.forEach { (inputFile, expected) ->
+            val input = implementation.mapInput(inputFile.load())
 
-            val actual = solution.part1()
+            val actual = implementation.part1(input)
 
-            assertEquals(expected, actual, "Wrong output for $input:")
+            assertEquals(expected, actual, "Wrong output for $inputFile:")
         }
     }
 
     @Test
     fun runPart2TestCases() {
-        part2TestCases.forEach { (input, expected) ->
-            val solution = instantiate(input)
+        part2TestCases.forEach { (inputFile, expected) ->
+            val input = implementation.mapInput(inputFile.load())
 
-            val actual = solution.part2()
+            val actual = implementation.part2(input)
 
-            assertEquals(expected, actual, "Wrong output for $input:")
+            assertEquals(expected, actual, "Wrong output for $inputFile:")
         }
-    }
-
-    private fun instantiate(input: String): Puzzle {
-        val constructor = clazz.primaryConstructor
-            ?: error("Class $clazz must have a primary constructor that accepts only List<String>")
-
-        return constructor.call(input.load())
     }
 
     private fun String.load(): List<String> {

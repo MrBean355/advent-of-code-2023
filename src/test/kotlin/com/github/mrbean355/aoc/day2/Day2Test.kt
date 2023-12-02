@@ -2,7 +2,7 @@ package com.github.mrbean355.aoc.day2
 
 import com.github.mrbean355.aoc.base.PuzzleTest
 
-class Day2Test : PuzzleTest(Day2::class) {
+class Day2Test : PuzzleTest<List<Game>>(Day2) {
 
     override val part1TestCases = mapOf(
         "day2/example.txt" to 8,

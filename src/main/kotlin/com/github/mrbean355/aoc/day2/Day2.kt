@@ -2,18 +2,16 @@ package com.github.mrbean355.aoc.day2
 
 import com.github.mrbean355.aoc.base.Puzzle
 
-class Day2(
-    private val input: List<String>,
-) : Puzzle {
+object Day2 : Puzzle<List<Game>> {
 
-    override fun part1(): Int {
+    override fun part1(input: List<Game>): Any {
         val maxCubes = mapOf(
             Cube.Red to 12,
             Cube.Green to 13,
             Cube.Blue to 14,
         )
 
-        return input.map(Game::from).filter { game ->
+        return input.filter { game ->
             game.draws.all { draw ->
                 draw.all {
                     it.amount <= maxCubes.getValue(it.cube)
@@ -22,8 +20,8 @@ class Day2(
         }.sumOf(Game::id)
     }
 
-    override fun part2(): Any {
-        return input.map(Game::from).sumOf { game ->
+    override fun part2(input: List<Game>): Any {
+        return input.sumOf { game ->
             val minCubes = mutableMapOf(
                 Cube.Red to 0,
                 Cube.Green to 0,
@@ -41,18 +39,12 @@ class Day2(
             }
         }
     }
-}
 
-private data class Game(
-    val id: Int,
-    val draws: List<List<CubeSelection>>,
-) {
-    companion object {
-
-        fun from(input: String): Game {
-            val colon = input.indexOf(':')
-            val id = input.substring(5, colon).toInt()
-            val draws = input.substring(colon + 2)
+    override fun mapInput(input: List<String>): List<Game> {
+        return input.map { line ->
+            val colon = line.indexOf(':')
+            val id = line.substring(5, colon).toInt()
+            val draws = line.substring(colon + 2)
             val cubeDraws = draws.split("; ").map { draw ->
                 draw.split(", ").map {
                     val space = it.indexOf(' ')
@@ -67,16 +59,7 @@ private data class Game(
                 }
             }
 
-            return Game(id, cubeDraws)
+            Game(id, cubeDraws)
         }
     }
 }
-
-private enum class Cube {
-    Red, Green, Blue
-}
-
-private data class CubeSelection(
-    val cube: Cube,
-    val amount: Int,
-)
