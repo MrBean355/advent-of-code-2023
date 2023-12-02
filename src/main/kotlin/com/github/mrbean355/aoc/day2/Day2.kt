@@ -21,7 +21,23 @@ class Day2(
     }
 
     override fun part2(): Any {
-        TODO("Not yet implemented")
+        return input.map(Game::from).sumOf { game ->
+            var minRed = 0
+            var minGreen = 0
+            var minBlue = 0
+
+            game.draws.forEach { draw ->
+                draw.forEach {
+                    when (it.first) {
+                        Cube.Red -> minRed = maxOf(minRed, it.second)
+                        Cube.Green -> minGreen = maxOf(minGreen, it.second)
+                        Cube.Blue -> minBlue = maxOf(minBlue, it.second)
+                    }
+                }
+            }
+
+            minRed * minGreen * minBlue
+        }
     }
 }
 
