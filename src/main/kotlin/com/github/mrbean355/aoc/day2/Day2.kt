@@ -7,14 +7,16 @@ class Day2(
 ) : Puzzle {
 
     override fun part1(): Int {
+        val maxCubes = mapOf(
+            Cube.Red to 12,
+            Cube.Green to 13,
+            Cube.Blue to 14,
+        )
+
         return input.map(Game::from).filter { game ->
             game.draws.all { draw ->
                 draw.all {
-                    it.second <= when (it.first) {
-                        Cube.Red -> 12
-                        Cube.Green -> 13
-                        Cube.Blue -> 14
-                    }
+                    it.amount <= maxCubes.getValue(it.cube)
                 }
             }
         }.sumOf(Game::id)
@@ -22,28 +24,28 @@ class Day2(
 
     override fun part2(): Any {
         return input.map(Game::from).sumOf { game ->
-            var minRed = 0
-            var minGreen = 0
-            var minBlue = 0
+            val minCubes = mutableMapOf(
+                Cube.Red to 0,
+                Cube.Green to 0,
+                Cube.Blue to 0,
+            )
 
             game.draws.forEach { draw ->
                 draw.forEach {
-                    when (it.first) {
-                        Cube.Red -> minRed = maxOf(minRed, it.second)
-                        Cube.Green -> minGreen = maxOf(minGreen, it.second)
-                        Cube.Blue -> minBlue = maxOf(minBlue, it.second)
-                    }
+                    minCubes[it.cube] = maxOf(minCubes.getValue(it.cube), it.amount)
                 }
             }
 
-            minRed * minGreen * minBlue
+            minCubes.values.reduce { acc, value ->
+                acc * value
+            }
         }
     }
 }
 
 private data class Game(
     val id: Int,
-    val draws: List<List<Pair<Cube, Int>>>,
+    val draws: List<List<CubeSelection>>,
 ) {
     companion object {
 
@@ -51,22 +53,21 @@ private data class Game(
             val colon = input.indexOf(':')
             val id = input.substring(5, colon).toInt()
             val draws = input.substring(colon + 2)
-
-            val m = draws.split("; ").map { draw ->
+            val cubeDraws = draws.split("; ").map { draw ->
                 draw.split(", ").map {
-                    val amount = it.substringBefore(' ').toInt()
-                    val colour = it.substringAfter(' ')
-                    val cube = when (colour) {
+                    val space = it.indexOf(' ')
+                    val amount = it.substring(0, space).toInt()
+                    val cube = when (val colour = it.substring(space + 1)) {
                         "red" -> Cube.Red
                         "green" -> Cube.Green
                         "blue" -> Cube.Blue
                         else -> error("Unexpected colour: $colour")
                     }
-                    cube to amount
+                    CubeSelection(cube, amount)
                 }
             }
 
-            return Game(id, m)
+            return Game(id, cubeDraws)
         }
     }
 }
@@ -74,3 +75,8 @@ private data class Game(
 private enum class Cube {
     Red, Green, Blue
 }
+
+private data class CubeSelection(
+    val cube: Cube,
+    val amount: Int,
+)
