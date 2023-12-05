@@ -3,6 +3,7 @@ package com.github.mrbean355.aoc.base
 import org.junit.jupiter.api.Test
 import java.io.File
 import kotlin.test.assertEquals
+import kotlin.test.fail
 
 /**
  * Base test class to make unit testing puzzles easier.
@@ -22,7 +23,11 @@ abstract class PuzzleTest<Input>(
         part1TestCases.forEach { (inputFile, expected) ->
             val input = implementation.mapInput(inputFile.load())
 
-            val actual = implementation.part1(input)
+            val actual = runCatching {
+                implementation.part1(input)
+            }.getOrElse {
+                fail("An exception was thrown for input $inputFile: ${it.stackTraceToString()}")
+            }
 
             assertEquals(expected, actual, "Wrong output for $inputFile:")
         }
@@ -33,7 +38,11 @@ abstract class PuzzleTest<Input>(
         part2TestCases.forEach { (inputFile, expected) ->
             val input = implementation.mapInput(inputFile.load())
 
-            val actual = implementation.part2(input)
+            val actual = runCatching {
+                implementation.part2(input)
+            }.getOrElse {
+                fail("An exception was thrown for input $inputFile: ${it.stackTraceToString()}")
+            }
 
             assertEquals(expected, actual, "Wrong output for $inputFile:")
         }
