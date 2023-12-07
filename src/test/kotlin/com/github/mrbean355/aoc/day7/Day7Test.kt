@@ -2,7 +2,7 @@ package com.github.mrbean355.aoc.day7
 
 import com.github.mrbean355.aoc.base.PuzzleTest
 
-class Day7Test : PuzzleTest<List<Hand>>(Day7) {
+class Day7Test : PuzzleTest<List<CardHand>>(Day7) {
 
     override val part1TestCases = mapOf(
         "day7/example.txt" to 6440,
