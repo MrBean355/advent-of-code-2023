@@ -9,7 +9,7 @@ class Day4Test : PuzzleTest<List<ScratchCard>>(Day4) {
         "day4/puzzle.txt" to 26443,
     )
 
-    override val part2TestCases: Map<String, Int> = mapOf(
+    override val part2TestCases = mapOf(
         "day4/example.txt" to 30,
         "day4/puzzle.txt" to 6284877,
     )

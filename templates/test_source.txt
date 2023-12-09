@@ -6,10 +6,12 @@ class Day$DAY$Test : PuzzleTest<List<String>>(Day$DAY$) {
 
     override val part1TestCases = mapOf(
         "day$DAY$/example.txt" to 0,
+       // "day$DAY$/puzzle.txt" to 0,
     )
 
-    override val part2TestCases: Map<String, Int> = mapOf(
-
+    override val part2TestCases = mapOf(
+        "day$DAY$/example.txt" to 0,
+       // "day$DAY$/puzzle.txt" to 0,
     )
 
 }
