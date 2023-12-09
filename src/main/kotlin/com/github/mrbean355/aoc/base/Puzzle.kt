@@ -10,10 +10,3 @@ interface Puzzle<Input> {
     fun mapInput(input: List<String>): Input
 
 }
-
-abstract class StringPuzzle : Puzzle<List<String>> {
-
-    final override fun mapInput(input: List<String>): List<String> {
-        return input
-    }
-}

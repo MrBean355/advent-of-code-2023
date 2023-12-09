@@ -1,8 +1,8 @@
 package com.github.mrbean355.aoc.day1
 
-import com.github.mrbean355.aoc.base.StringPuzzle
+import com.github.mrbean355.aoc.base.Puzzle
 
-object Day1 : StringPuzzle() {
+object Day1 : Puzzle<List<String>> {
 
     override fun part1(input: List<String>): Any {
         return input.sumOf { line ->
@@ -20,5 +20,9 @@ object Day1 : StringPuzzle() {
 
             "$first$last".toInt()
         }
+    }
+
+    override fun mapInput(input: List<String>): List<String> {
+        return input
     }
 }
