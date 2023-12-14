@@ -9,24 +9,33 @@ class Grid(
     private val data = data.toMutableList()
 
     init {
-        require(width * height == data.size) { "Data size mismatch" }
+        require(width * height == data.size) {
+            "Data size mismatch"
+        }
     }
 
     operator fun set(column: Int, row: Int, value: Char) {
-        val index = column + row * width
-        require(index in data.indices)
-        data[index] = value
+        require(column in 0..<width) {
+            "Column index out of bounds: $column"
+        }
+        require(row in 0..<height) {
+            "Row index out of bounds: $row"
+        }
+        data[column + row * width] = value
     }
 
     fun getRow(index: Int): List<Char> {
-        require(index in 0..<height)
+        require(index in 0..<height) {
+            "Row index out of bounds: $index"
+        }
         val start = index * width
         return data.subList(start, start + width)
     }
 
     fun getColumn(index: Int): List<Char> {
-        require(index in 0..<width)
-
+        require(index in 0..<width) {
+            "Column index out of bounds: $index"
+        }
         return buildList {
             repeat(height) {
                 add(data[index + it * width])
@@ -47,7 +56,7 @@ class Grid(
             private var index = 0
 
             override fun hasNext(): Boolean {
-                return index < data.size - 1
+                return index < data.size
             }
 
             override fun next(): Char {
