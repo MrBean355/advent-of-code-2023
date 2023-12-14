@@ -11,8 +11,8 @@ class Day13Test : PuzzleTest<List<Grid>>(Day13) {
     )
 
     override val part2TestCases = mapOf(
-        "day13/example.txt" to 0,
-        // "day13/puzzle.txt" to 0,
+        "day13/example.txt" to 400,
+        "day13/puzzle.txt" to 31836,
     )
 
 }

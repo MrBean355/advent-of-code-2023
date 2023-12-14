@@ -14,6 +14,13 @@ class Grid(
         }
     }
 
+    operator fun set(index: Int, value: Char) {
+        require(index in data.indices) {
+            "Index out of bounds: $index"
+        }
+        data[index] = value
+    }
+
     operator fun set(column: Int, row: Int, value: Char) {
         require(column in 0..<width) {
             "Column index out of bounds: $column"
