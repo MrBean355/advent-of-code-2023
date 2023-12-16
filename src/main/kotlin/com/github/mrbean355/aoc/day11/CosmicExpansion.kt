@@ -1,5 +1,6 @@
 package com.github.mrbean355.aoc.day11
 
+import com.github.mrbean355.aoc.base.Point
 import kotlin.math.abs
 
 private const val GALAXY = '#'
@@ -18,10 +19,10 @@ class Space(
         val result = mutableListOf<Long>()
 
         (0..<galaxies.size - 1).forEach { source ->
-            val (sx, sy) = galaxies[source].xy()
+            val (sx, sy) = galaxies[source].indexToPoint()
 
             (source + 1..<galaxies.size).forEach { destination ->
-                val (dx, dy) = galaxies[destination].xy()
+                val (dx, dy) = galaxies[destination].indexToPoint()
 
                 val dist = abs(dx - sx) + abs(dy - sy)
                 val expandedColumns = valuesInBetween(sx, dx).count { it in emptyColumns }
@@ -47,8 +48,8 @@ class Space(
         return chars.subList(start, start + size)
     }
 
-    private fun Int.xy(): Pair<Int, Int> {
-        return mod(size) to div(size)
+    private fun Int.indexToPoint(): Point {
+        return Point(mod(size), div(size))
     }
 
     private fun valuesInBetween(a: Int, b: Int): Iterable<Int> {

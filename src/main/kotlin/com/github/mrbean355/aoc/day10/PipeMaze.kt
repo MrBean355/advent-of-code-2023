@@ -1,12 +1,13 @@
 package com.github.mrbean355.aoc.day10
 
+import com.github.mrbean355.aoc.base.Point
 import kotlin.math.sqrt
 
 private const val START = 'S'
 private const val EMPTY = '.'
 
 class Maze(
-    input: List<Char>
+    input: List<Char>,
 ) : Iterable<Char> {
 
     private val size = sqrt(1f * input.size).toInt()
@@ -68,8 +69,8 @@ class Maze(
         }
     }
 
-    private fun Int.indexToPoint(): Pair<Int, Int> {
-        return mod(size) to div(size)
+    private fun Int.indexToPoint(): Point {
+        return Point(mod(size), div(size))
     }
 
     @Suppress("EnumEntryName")
