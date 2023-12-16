@@ -14,6 +14,16 @@ class Grid(
         }
     }
 
+    operator fun get(column: Int, row: Int): Char {
+        require(column in 0..<width) {
+            "Column index out of bounds: $column"
+        }
+        require(row in 0..<height) {
+            "Row index out of bounds: $row"
+        }
+        return data[column + row * width]
+    }
+
     operator fun set(index: Int, value: Char) {
         require(index in data.indices) {
             "Index out of bounds: $index"
